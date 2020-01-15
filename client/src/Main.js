@@ -54,7 +54,8 @@ class TodoApp extends React.Component {
   }
 
   save() {
-    fetch('http://localhost:8000/list/save', {
+    var userid = 2;
+    fetch('http://localhost:8000/list/save/' + userid, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -63,9 +64,11 @@ class TodoApp extends React.Component {
       body: JSON.stringify({"items": this.state.items})
     })
     .then((response) => {
+      console.log("In first then");
       return response.json();
     })
     .then((response) => {
+      console.log("In SAVE then");
       if (response.success) {
         console.log("Successfully saved")
       } else {
@@ -122,8 +125,8 @@ class TodoApp extends React.Component {
   }
 
   componentDidMount() {
-    console.log("In did mount");
-    fetch("http://localhost:8000/list/items")
+    var userid = 2;
+    fetch("http://localhost:8000/list/items/" + userid)
     .then((response) => {
       return response.json();
     })
