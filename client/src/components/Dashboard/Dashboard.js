@@ -5,8 +5,28 @@ import {Link} from 'react-router-dom';
 import "./Dashboard.css";
 import TodoApp from "./TodoApp/TodoApp"
 
-function Title(props) {
-  return <h1>Brian's TODO List</h1>
+class Title extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {firstname: null};
+  } 
+
+  componentDidMount() {
+    fetch('/list/firstname')
+      .then((response) => {
+        return response.json();
+      })
+      .then((jsonResponse) => {
+        if (jsonResponse.firstname) {
+          this.setState({firstname: jsonResponse.firstname});
+        }
+      })
+  }
+
+  render() {
+    return <h1>{this.state.firstname}'s TODO List</h1>
+  }
 }
 
 class LogoutLink extends React.Component {

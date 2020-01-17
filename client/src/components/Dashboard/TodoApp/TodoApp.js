@@ -51,8 +51,7 @@ class TodoApp extends React.Component {
     }
 
     save() {
-        var userid = 2;
-        fetch('/list/save/' + userid, {
+        fetch('/list/save/', {
             method: 'POST',
             redirect: 'follow',
             headers: {
@@ -125,17 +124,14 @@ class TodoApp extends React.Component {
     }
 
     componentDidMount() {
-        console.log("DidMountProps:", this.props)
-        var userid = 2;
-        fetch("/list/items/" + userid, { redirect: 'follow' })
+        fetch("/list/items/")
             .then((response) => {
                 return response.json();
             })
             .then((response) => {
                 if (response.noAuth) {
-                    console.log("props:", this.props.history);
-                    this.props.history.push('/login');
                     this.setState({ noAuth: true });
+                    this.props.history.push('/login');
                 } else {
                     this.setState({ items: response.items });
                 }

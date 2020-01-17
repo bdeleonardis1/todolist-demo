@@ -7,12 +7,23 @@ var bodyParser = require('body-parser');
 var listRoutes = require("./routes/list");
 var authRoutes = require("./routes/auth");
 
+var passport = require("./passport");
+
 app.use(cors());
+
+app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/list', listRoutes);
 app.use('/auth', authRoutes);
+
 
 app.get('/', (req, res) => {
     res.redirect('http://localhost:3000');
